@@ -1,0 +1,113 @@
+{% extends "aplicacion/base/base.html" %}
+{% load static %}
+    
+{% block content %}
+
+    <!-- Contenido -->
+    <div class="container">
+        <h2 class="mt-5 mb-4">Catálogo de Vinilos</h2>
+        <div class="row">
+            <!-- Vinilo 1 -->
+            <div class="col-md-4">
+                <div class="vinilo">
+                    <img src="{% static 'aplicacion/img/slider1.webp' %}" alt="Vinilo 1" class="img-fluid">
+                    <h4 class="mt-3">Are You Experienced</h4>
+                    <p>Jimi Hendrix</p>
+                    <p>$20.00</p>
+                    <a href="{% url 'iniciar' %}" class="btn btn-dark btn-agregar">Agregar al Carrito</a>
+                </div>
+            </div>
+            <!-- Vinilo 2 -->
+            <div class="col-md-4">
+                <div class="vinilo">
+                    <img src="{% static 'aplicacion/img/slider2.webp' %}" alt="Vinilo 2" class="img-fluid">
+                    <h4 class="mt-3">Greatest Hits I</h4>
+                    <p>Queen</p>
+                    <p>$25.00</p>
+                    <a href="{% url 'iniciar' %}" class="btn btn-dark btn-agregar">Agregar al Carrito</a>
+                </div>
+            </div>
+            <!-- Vinilo 3 -->
+            <div class="col-md-4">
+                <div class="vinilo">
+                    <img src="{% static 'aplicacion/img/slider3.png' %}" alt="Vinilo 3" class="img-fluid">
+                    <h4 class="mt-3">Greatest Hits</h4>
+                    <p>Tom Petty</p>
+                    <p>$30.00</p>
+                    <a href="{% url 'iniciar' %}" class="btn btn-dark btn-agregar">Agregar al Carrito</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Segunda fila de vinilos -->
+        <div class="row mt-5">
+            <!-- Vinilo 4 -->
+            <div class="col-md-4">
+                <div class="vinilo">
+                    <img src="{% static 'aplicacion/img/darkside.webp' %}" alt="Vinilo 4" class="img-fluid">
+                    <h4 class="mt-3">Dark Side of the Moon</h4>
+                    <p>Pink Floyd</p>
+                    <p>$35.00</p>
+                    <a href="{% url 'iniciar' %}" class="btn btn-dark btn-agregar">Agregar al Carrito</a>
+                </div>
+            </div>
+            <!-- Vinilo 5 -->
+            <div class="col-md-4">
+                <div class="vinilo">
+                    <img src="{% static 'aplicacion/img/beattles.jpg' %}" alt="Vinilo 5" class="img-fluid">
+                    <h4 class="mt-3">Abbey Road</h4>
+                    <p>The Beatles</p>
+                    <p>$40.00</p>
+                    <a href="{% url 'iniciar' %}" class="btn btn-dark btn-agregar">Agregar al Carrito</a>
+                </div>
+            </div>
+            <!-- Vinilo 6 -->
+            <div class="col-md-4">
+                <div class="vinilo">
+                    <img src="{% static 'aplicacion/img/thriller.png' %}" alt="Vinilo 6" class="img-fluid">
+                    <h4 class="mt-3">Thriller</h4>
+                    <p>Michael Jackson</p>
+                    <p>$30.00</p>
+                    <a href="{% url 'iniciar' %}" class="btn btn-dark btn-agregar">Agregar al Carrito</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tercera fila de vinilos -->
+        <div class="row mt-5">
+            <!-- Vinilo 7 -->
+            <div class="col-md-4">
+                <div class="vinilo">
+                    <img src="{% static 'aplicacion/img/thewall.jpg' %}" alt="Vinilo 7" class="img-fluid">
+                    <h4 class="mt-3">The Wall</h4>
+                    <p>Pink Floyd</p>
+                    <p>$35.00</p>
+                    <a href="{% url 'iniciar' %}" class="btn btn-dark btn-agregar">Agregar al Carrito</a>
+                </div>
+            </div>
+            <!-- Vinilo 8 -->
+            <div class="col-md-4">
+                <div class="vinilo">
+                    <img src="{% static 'aplicacion/img/bib.jpg' %}" alt="Vinilo 8" class="img-fluid">
+                    <h4 class="mt-3">Back in Black</h4>
+                    <p>AC/DC</p>
+                    <p>$30.00</p>
+                    <a href="{% url 'iniciar' %}" class="btn btn-dark btn-agregar">Agregar al Carrito</a>
+                </div>
+            </div>
+            <!-- Vinilo 9 -->
+            <div class="col-md-4">
+                <div class="vinilo">
+                    <img src="{% static 'aplicacion/img/lziv.jpg' %}" alt="Vinilo 9" class="img-fluid">
+                    <h4 class="mt-3">Led Zeppelin IV</h4>
+                    <p>Led Zeppelin</p>
+                    <p>$35.00</p>
+                    <a href="{% url 'iniciar' %}" class="btn btn-dark btn-agregar">Agregar al Carrito</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+{% endblock content %}

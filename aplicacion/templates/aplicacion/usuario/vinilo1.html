@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Are You Experienced - Vinyl Store</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+
+    <!-- Font Montserrat -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #f8f9fa;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .album-container {
+            max-width: 600px;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .album-img {
+            border-radius: 10px;
+            margin-bottom: 20px;
+            box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .album-title {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .artist-name {
+            color: #666;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .album-price {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .dropdown-menu {
+            border-radius: 10px;
+        }
+
+        .dropdown-menu a {
+            color: #333;
+            font-weight: bold;
+            padding: 5px 20px;
+            transition: all 0.3s ease;
+        }
+
+        .dropdown-menu a:hover {
+            background-color: #f0f0f0;
+        }
+
+        .btn-shop {
+            background-color: #343a40;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            font-size: 18px;
+            transition: all 0.3s ease;
+            display: block;
+            width: 100%;
+            margin-top: 30px;
+        }
+
+        .btn-shop:hover {
+            background-color: #23272b;
+        }
+
+        .btn-back {
+            margin-top: 20px;
+            display: block;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+
+
+    <!-- Album Content -->
+    <div class="album-container">
+        <img src="../img/slider1.webp" alt="Are You Experienced" class="album-img">
+        <h2 class="album-title">Are You Experienced</h2>
+        <p class="artist-name">Jimi Hendrix</p>
+        <p class="album-price">$20.00</p>
+        <div class="dropdown">
+            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
+                data-bs-toggle="dropdown" aria-expanded="false">
+                Song List
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                <li><a class="dropdown-item" href="#">Purple Haze</a></li>
+                <li><a class="dropdown-item" href="#">Manic Depression</a></li>
+                <li><a class="dropdown-item" href="#">Hey Joe</a></li>
+                <li><a class="dropdown-item" href="#">Love or Confusion</a></li>
+                <li><a class="dropdown-item" href="#">May This Be Love</a></li>
+                <li><a class="dropdown-item" href="#">I Don't Live Today</a></li>
+                <li><a class="dropdown-item" href="#">The Wind Cries Mary</a></li>
+                <li><a class="dropdown-item" href="#">Fire</a></li>
+                <li><a class="dropdown-item" href="#">Third Stone from the Sun</a></li>
+                <li><a class="dropdown-item" href="#">Foxey Lady</a></li>
+                <li><a class="dropdown-item" href="#">Are You Experienced?</a></li>
+            </ul>
+        </div>
+        <a href="carrito.html" class="btn btn-shop">Agregar al Carrito</a>
+        <a href="catalogoiniciado.html" class="btn btn-back"><i class="fas fa-arrow-left"></i> Volver al Catálogo</a>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>

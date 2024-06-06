@@ -1,0 +1,13 @@
+{% extends "aplicacion/base/baseiniciado.html" %}
+{% load static %}
+    
+{% block content %}
+
+    <div class="container">
+        <i class="fas fa-shopping-cart icon-checkmark"></i>
+        <h2>Gracias por su compra </h2>
+        <p>Su carrito está vacío.</p>
+        <a href="{% url 'indexiniciado' %}" class="btn btn-primary mb-4">Volver a la tienda</a>
+    </div>
+
+    {% endblock content %}

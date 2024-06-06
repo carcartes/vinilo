@@ -1,0 +1,25 @@
+{% extends "aplicacion/base/baselogin.html" %}
+{% load static %}
+    
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 offset-md-3">
+                <div class="recover-container">
+                    <h2 class="text-center mb-4">Recuperar Contraseña</h2>
+                    <form action="{% url 'verificar' %}">
+                        <div class="form-group">
+                            <label for="email">Correo Electrónico:</label>
+                            <input type="email" class="form-control" id="email" required
+                                placeholder="Ingrese su correo electrónico">
+                            <div class="invalid-feedback">Ingrese una email valido.</div>
+                        </div>
+                        <button type="submit" class="btn btn-dark btn-block">Recuperar Contraseña</button>
+                        <a href="{% url 'iniciar' %}" class="btn btn-dark btn-block">Volver</a>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% endblock content %}

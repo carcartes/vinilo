@@ -1,0 +1,321 @@
+body {
+    font-family: 'Montserrat', sans-serif;
+    background-color: #f8f9fa;
+    margin-bottom: 0; /* Elimina el margen inferior */
+}
+/*slider para pantallas grandes*/
+@media (min-width: 992px) {
+    .carousel-inner img {
+        width: auto;
+        height: 700px;
+        margin: 0 auto;
+        display: block;
+    }
+
+    .carousel-item img {
+        object-fit: contain;
+    }
+}
+
+footer {
+    background-color: #343a40;
+    color: #fff;
+    padding: 20px 0;
+    margin-top: 0; /* Asegurémonos de que no haya margen superior */
+    margin-bottom: 0; /* Asegurémonos de que no haya margen inferior */
+}
+
+
+    /* Elimina el fondo gris de los botones que contienen los iconos */
+    .navbar .btn-secondary {
+        background-color: transparent;
+        border: none;
+    }
+
+
+.carousel-item img {
+    border-radius: 10px;
+    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
+}
+
+.carousel-caption {
+    background-color: rgba(0, 0, 0, 0.5);
+    border-radius: 10px;
+    padding: 20px;
+}
+
+.carousel-caption h5 {
+    color: #fff;
+    font-weight: bold;
+}
+
+.carousel-caption p {
+    color: #ccc;
+    margin-bottom: 0;
+}
+
+.btn-shop {
+    background-color: #343a40;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    font-size: 18px;
+    transition: all 0.3s ease;
+}
+
+.btn-shop:hover {
+    background-color: #23272b;
+}
+
+
+
+.vinilo {
+    margin-bottom: 30px;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.vinilo img {
+    border-radius: 10px;
+    margin-bottom: 20px;
+}
+
+.vinilo h4 {
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.vinilo p {
+    color: #666;
+    margin-bottom: 10px;
+}
+
+.vinilo .btn-agregar {
+    width: 100%;
+    padding: 10px 0;
+    font-size: 18px;
+    background-color: #343a40;
+    border: none;
+    border-radius: 5px;
+}
+
+.vinilo .btn-agregar:hover {
+    background-color: #23272b;
+}
+
+
+.vinilo .input-group {
+    margin-bottom: 20px;
+}
+
+.vinilo button {
+    width: 100%;
+}
+
+hr {
+    border-top: 1px solid #ddd;
+    margin-top: 40px;
+    margin-bottom: 40px;
+}
+
+.total {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.btn-pagar {
+    width: 100%;
+    padding: 10px 0;
+    font-size: 18px;
+}
+
+
+
+.container {
+    max-width: 800px;
+    margin: auto;
+}
+
+.pedido {
+    background-color: #fff;
+    margin-bottom: 20px;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.pedido h4 {
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.pedido p {
+    color: #666;
+    margin-bottom: 10px;
+}
+
+.pedido .fecha {
+    color: #888;
+    font-size: 14px;
+}
+
+.pedido .estado {
+    font-weight: bold;
+}
+
+.pedido img {
+    width: 300px; /* Establece el ancho de la imagen */
+    height: auto; /* Mantiene la proporción de aspecto */
+    margin-bottom: 10px;
+}
+
+
+.checkout-container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.order-summary {
+    background-color: #f8f9fa;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
+}
+
+.order-summary h3 {
+    margin-bottom: 20px;
+}
+
+.order-item {
+    margin-bottom: 10px;
+}
+
+
+
+
+.payment-container {
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.container {
+    text-align: center;
+    margin-top: 100px;
+}
+
+.icon-checkmark {
+    font-size: 100px;
+    color: #28a745;
+}
+
+h2 {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+p {
+    margin-bottom: 20px;
+}
+
+.btn {
+    font-size: 18px;
+}
+
+.cart {
+    position: fixed;
+    top: 0;
+    right: -300px;
+    width: 300px;
+    height: 100%;
+    background: #f8f9fa;
+    box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
+    transition: right 0.3s;
+    overflow-y: auto;
+}
+
+.cart.open {
+    right: 0;
+}
+
+.cart-header {
+    padding: 10px;
+    background: #343a40;
+    color: #fff;
+    text-align: center;
+}
+
+.cart-body {
+    padding: 10px;
+}
+
+.cart-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    border-bottom: 1px solid #dee2e6;
+}
+
+.cart-item img {
+    width: 70px;
+    height: 70px;
+    object-fit: cover;
+    margin-right: 10px;
+}
+
+.cart-actions {
+    text-align: center;
+    padding: 10px;
+}
+
+.cart-total {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+    border-top: 1px solid #dee2e6;
+    background: #e9ecef;
+}
+
+/* Estilos para el encabezado de la sección de ubicación */
+h2 {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #333;  /* Color del texto del encabezado */
+    margin-bottom: 10px;  /* Espacio debajo del encabezado */
+}
+
+/* Estilos para el texto de la ubicación */
+#location {
+    font-size: 1.1rem;  /* Tamaño del texto */
+    color: #555;  /* Color del texto */
+    padding: 10px;  /* Espaciado alrededor del texto */
+    background-color: #f9f9f9;  /* Color de fondo */
+    border: 1px solid #ddd;  /* Borde alrededor del texto */
+    border-radius: 5px;  /* Bordes redondeados */
+}
+
+/* Espaciado entre elementos para dar aire a la sección */
+.container {
+    margin-top: 20px;  /* Espacio encima de la sección de ubicación */
+    padding: 20px;  /* Espaciado interno para la sección */
+}

@@ -1,0 +1,98 @@
+{% extends "aplicacion/base/baseadmin.html" %}
+{% load static %}
+
+{% block content %}
+
+<!-- Contenido -->
+<div class="container">
+    <h2>Lista de Pedidos</h2>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>ID Pedido</th>
+                <th>Usuario</th>
+                <th>Producto</th>
+                <th>Dirección</th>
+                <th>Estado</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Datos ficticios de pedidos -->
+            <tr data-id-pedido="1">
+                <td>1</td>
+                <td>Usuario 1</td>
+                <td>Producto A</td>
+                <td>Dirección 1, Ciudad A</td>
+                <td><span class="badge bg-danger">Cancelado</span></td>
+                <td>
+                    <button type="button" class="btn btn-danger btn-eliminar"><i class="fas fa-trash-alt"></i>
+                        Eliminar</button>
+                    <button type="button" class="btn btn-primary btn-editar" data-bs-toggle="modal"
+                        data-bs-target="#editarPedidoModal"><i class="far fa-edit"></i> Editar</button>
+                </td>
+            </tr>
+            <tr data-id-pedido="2">
+                <td>2</td>
+                <td>Usuario 2</td>
+                <td>Producto B</td>
+                <td>Dirección 2, Ciudad B</td>
+                <td><span class="badge bg-warning text-dark">En camino</span></td>
+                <td>
+                    <button type="button" class="btn btn-danger btn-eliminar"><i class="fas fa-trash-alt"></i>
+                        Eliminar</button>
+                    <button type="button" class="btn btn-primary btn-editar" data-bs-toggle="modal"
+                        data-bs-target="#editarPedidoModal"><i class="far fa-edit"></i> Editar</button>
+                </td>
+            </tr>
+            <tr data-id-pedido="3">
+                <td>3</td>
+                <td>Usuario 3</td>
+                <td>Producto C</td>
+                <td>Dirección 3, Ciudad C</td>
+                <td><span class="badge bg-success">Entregado</span></td>
+                <td>
+                    <button type="button" class="btn btn-danger btn-eliminar"><i class="fas fa-trash-alt"></i>
+                        Eliminar</button>
+                    <button type="button" class="btn btn-primary btn-editar" data-bs-toggle="modal"
+                        data-bs-target="#editarPedidoModal"><i class="far fa-edit"></i> Editar</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<!-- Modal para editar pedido -->
+<div class="modal fade" id="editarPedidoModal" tabindex="-1" aria-labelledby="editarPedidoModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editarPedidoModalLabel">Editar Pedido</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <!-- Formulario para editar el pedido -->
+                <form id="formularioEditarPedido">
+                    <div class="mb-3">
+                        <label for="estadoPedido" class="form-label">Estado</label>
+                        <select class="form-select" id="estadoPedido">
+                            <option value="1">En proceso</option>
+                            <option value="2">En camino</option>
+                            <option value="3">Entregado</option>
+                            <option value="4">Cancelado</option>
+                        </select>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-primary" id="guardarCambiosPedido">Guardar cambios</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script src="{% static 'aplicacion/js/pedidos.js' %}"></script>
+{% endblock content %}
