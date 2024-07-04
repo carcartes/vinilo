@@ -1,0 +1,70 @@
+{% extends "aplicacion/base.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-sm-4"></div>
+        <div class="col-sm-4">
+            <div class="p-2 border rounded shadow mt-4">
+                <h3>Eliminar Registro</h3>
+                
+                    <div>
+                        <div class="alert alert-danger" role="alert">
+                            <strong>IMPORTANTE:</strong>
+                            <p>Está a punto de eliminar el pedido de:</p>
+                            <h4>{{pedido.user}}</h4>
+                        </div>
+                    </div>
+                    <div>
+                        <input type="button" value="Eliminar" class="btn btn-danger  text-light btn-lg" data-bs-toggle="modal" data-bs-target="#myModal">
+                        <a href="{% url 'pedidos' %}">
+                            <button type="button" class="btn btn-light border btn-lg">Volver</button>
+                        </a>
+                    </div>
+              
+
+
+            </div>
+        </div>
+        <div class="col-sm-4"></div>
+    </div>
+    <!--
+   <script>
+        document.getElementById("id_f_nacto").value={{persona.f_nacto}}
+    </script>
+    -->
+</div>
+
+<!-- The Modal -->
+<div class="modal fade" id="myModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header bg-danger">
+                <h4 class="modal-title text-light">Confirmar Acción</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+                ¿Esta seguro de eliminar el pedido de {{pedido.user}} ?
+            </div>
+
+            <!-- Modal footer -->
+            <form action="" method="post">
+                {% csrf_token %}
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-danger" data-bs-dismiss="modal">Confirmar Eliminación</button>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

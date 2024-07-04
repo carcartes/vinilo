@@ -1,4 +1,4 @@
-{% extends "aplicacion/base/base.html" %}
+{% extends "aplicacion/base.html" %}
 {% load static %}
     
 {% block content %}
@@ -40,5 +40,21 @@
             <span class="visually-hidden">Siguiente</span>
         </button>
     </div>
+
+    
+    <!-- Verificar si el usuario está autenticado -->
+    {% if user.is_authenticated %}
+            <!-- Sección para mostrar la ubicación basada en IP -->
+            <div class="container mt-4">
+                <h2>Tu ubicación:</h2>
+                <p id="location">Cargando...</p>
+            </div>
+            {% block js %}
+            <!-- Código para obtener ubicación basada en IP usando ipapi -->
+            <script src={% static 'aplicacion/js/geolocal.js' %}>
+            </script>
+            {% endblock %}
+    {% endif %}
+    
 
 {% endblock content %}

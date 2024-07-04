@@ -1,0 +1,40 @@
+{% extends "aplicacion/base.html" %}
+{% load static %}
+
+{% block content %}
+<br><br><br>
+<div class="card">
+    <div class="card-body">
+        <h2>Mis Pedidos</h2>
+        <table class="table table-striped table-hover table-responsive-sm">
+            <thead>
+                <tr>
+                    <th>Imagen</th>
+                    <th>Título</th>
+                    <th>Cantidad</th>
+                    <th>Costo</th>
+                    <th>Fecha pedido</th>
+                    <th>Direccion</th>
+                    <th>Estado</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for p in entity %}
+                <tr>
+                    <td><img src="{{ p.disco.imagen.url }}" alt="{{ p.disco.titulo }}" class="img-fluid" style="max-height: 100px;"></td>
+                    <td>{{ p.disco.titulo }}</td>
+                    <td>{{ p.cantidad }}</td>
+                    <td>${{ p.precio_total }}</td>
+                    <td>{{ p.fecha_pedido }}</td>
+                    <td>{{ p.direccion_envio.calle }} , {{ p.direccion_envio.ciudad }},  {{ p.direccion_envio.region }}</td>
+                    <th>{{ p.estado }}</th>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <div>
+            {% include 'aplicacion/paginator.html' %}
+        </div>
+    </div>
+</div>
+{% endblock %}

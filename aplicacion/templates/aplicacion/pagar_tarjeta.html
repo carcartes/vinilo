@@ -1,0 +1,22 @@
+{% extends "aplicacion/base.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<div class="container">
+    <div class="row mt-4">
+        <div class="col-md-6 offset-md-3">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Pagar con Tarjeta</h5>
+                    <form action="{% url 'pagar_tarjeta' %}" method="post">
+                        {% csrf_token %}
+                        {{ datos_tarjeta_form|crispy }}
+                        <button type="submit" class="btn btn-dark btn-block mt-3">Confirmar Pago</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

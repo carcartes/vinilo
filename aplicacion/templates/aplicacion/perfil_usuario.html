@@ -1,0 +1,35 @@
+{% extends "aplicacion/base.html" %}
+{% load static %}
+
+{% block content %}
+
+<div class="container mt-4">
+    <div class="card mx-auto" style="max-width: 500px;">
+        <div class="card-header bg-primary text-white">
+            <h2 class="card-title text-center">Perfil de Usuario</h2>
+        </div>
+        <div class="card-body">
+            <div class="text-center mb-4">
+                {% if usuario.imagen %}
+                    <img src="{{ usuario.imagen.url }}" class="card-img-top rounded-circle" style="width: 150px; height: 150px; object-fit: cover;" alt="Imagen de perfil">
+                {% else %}
+                    <div class="rounded-circle d-flex justify-content-center align-items-center mx-auto" style="width: 150px; height: 150px; background-color: #f0f0f0; color: #999;">
+                        <span style="font-size: 15x;">No hay foto de perfil</span>
+                    </div>
+                {% endif %}
+            </div>
+            <div class="mb-4">
+                <p><strong>Username:</strong> {{ usuario.username }}</p>
+                <p><strong>Email:</strong> {{ usuario.email }}</p>
+                <p><strong>Nombre:</strong> {{ usuario.first_name }}</p>
+                <p><strong>Apellido:</strong> {{ usuario.last_name }}</p>
+                <p><strong>Fecha de nacimiento:</strong> {{ usuario.fecha_nacimiento }}</p>
+            </div>
+            <div class="text-center">
+                <a href="{% url 'modificarperfil' usuario.id %}" class="btn btn-primary">Editar perfil</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}
