@@ -1,6 +1,6 @@
 # IMPORTS
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import Disco, Pedido, CustomUser, Carrito, DireccionEnvio
+from .models import Disco, Pedido, CustomUser, Carrito, DireccionEnvio, PedidoDetalle
 from .forms import DiscoForm, CustomUserCreationForm, PedidoForm, UpdCustomUserCreationForm, DatosTarjetaForm, DireccionEnvioForm
 from django.contrib import messages
 from os import remove, path
@@ -80,68 +80,46 @@ def pagar_tarjeta(request):
 
     return render(request, 'aplicacion/pagar_tarjeta.html', context)
 
-@login_required
+
 def direccion_envio(request):
     if request.method == 'POST':
         direccion_form = DireccionEnvioForm(request.POST)
         if direccion_form.is_valid():
-            # Crear una instancia de DireccionEnvio pero no guardarla aún
-            direccion_envio_instancia = direccion_form.save(commit=False)
-            
-            # Obtener todos los elementos del carrito del usuario actual
-            carrito_items = Carrito.objects.filter(usuario=request.user)
-            
-            if carrito_items.exists():  # Verificar si hay elementos en el carrito
-                with transaction.atomic():
-                    for carrito_item in carrito_items:
-                        # Verificar si hay suficiente stock para el pedido
-                        if carrito_item.cantidad <= carrito_item.disco.stock:
-                            # Crear un nuevo pedido asociado con el disco del carrito
-                            pedido_actual = Pedido.objects.create(
-                                user=request.user,
-                                disco=carrito_item.disco,
-                                cantidad=carrito_item.cantidad,
-                            )
-                            
-                            # Asignar el pedido creado a la instancia de DireccionEnvio
-                            direccion_envio_instancia.pedido = pedido_actual
-                            
-                            # Reducir el stock del disco
-                            disco = carrito_item.disco
-                            cantidad_comprada = carrito_item.cantidad
-                            
-                            if disco.stock >= cantidad_comprada:
-                                disco.stock -= cantidad_comprada
-                                disco.save()
-                            else:
-                                # Manejar el caso donde la cantidad en el carrito es mayor que el stock disponible (opcional)
-                                # Esto depende de la lógica de tu aplicación
-                                pass
-                            
-                            # Eliminar el ítem del carrito después de usarlo para crear el pedido
-                            carrito_item.delete()
-                        else:
-                            messages.error(request, f'No hay suficiente stock para completar el pedido del disco {carrito_item.disco.nombre}.')
-                            return redirect('direccion_envio')  # Redirigir de vuelta al formulario de dirección de envío
-            
-                # Guardar la instancia de DireccionEnvio después de procesar todos los pedidos
-                direccion_envio_instancia.save()
-                
-                # Opcional: guardar el ID de la dirección de envío en la sesión
-                request.session['direccion_envio_id'] = direccion_envio_instancia.id
-                
-                return redirect('pagar_tarjeta')
-            
-            else:
-                messages.error(request, 'No hay ítems en el carrito para realizar el pedido.')
+            direccion = direccion_form.save(commit=False)
+            direccion.pedido = crear_pedido(request.user)
+            direccion.save()
+            return redirect('pagar_tarjeta')  # Ajusta esta URL según la vista de confirmación de pago
     else:
         direccion_form = DireccionEnvioForm()
+    
+    return render(request, 'aplicacion/direccion_envio.html', {'direccion_form': direccion_form})
 
-    context = {
-        'direccion_form': direccion_form,
-    }
+def crear_pedido(usuario):
+    carrito = Carrito.objects.filter(usuario=usuario)
+    pedido = Pedido.objects.create(user=usuario)
 
-    return render(request, 'aplicacion/direccion_envio.html', context)
+    try:
+        with transaction.atomic():
+            for item in carrito:
+                # Crear el detalle de pedido
+                PedidoDetalle.objects.create(
+                    pedido=pedido,
+                    disco=item.disco,
+                    cantidad=item.cantidad,
+                )
+                
+                # Actualizar el stock del disco
+                disco = item.disco
+                disco.stock -= item.cantidad
+                disco.save()
+
+            # Una vez procesados todos los detalles del pedido, eliminar el carrito
+            carrito.delete()
+
+    except Exception as e:
+        raise e
+
+    return pedido
 
 @login_required
 def process_pedido(request):
@@ -368,8 +346,14 @@ def eliminarpersona(request, id):
     user = get_object_or_404(CustomUser, id=id)
     
     if request.method == "POST":
+        if user.imagen:
+            # Eliminar la imagen asociada si existe
+            try:
+                remove(path.join(str(settings.MEDIA_ROOT).replace('/media', '') + str(user.imagen.url).replace('/', '\\')))
+            except FileNotFoundError:
+                pass  # Manejar caso donde la imagen ya ha sido eliminada externamente
+        
         user.delete()
-        remove(path.join(str(settings.MEDIA_ROOT).replace('/media', '') + str(user.imagen.url).replace('/', '\\')))
         
         messages.set_level(request, messages.WARNING)
         messages.warning(request, "Persona Eliminada")
@@ -398,24 +382,46 @@ def pedidos(request):
     return render(request,'aplicacion/administrador/pedidos.html', datos)
 
 @permission_required('aplicacion.add_disco')
-def modificarpedido(request, id):
+def detalles_pedido(request, pedido_id):
+    # Obtener el pedido por su ID, si no existe devuelve un error 404
+    pedido = get_object_or_404(Pedido, id=pedido_id)
     
-    pedido = get_object_or_404(Pedido, id=id)
-
-    data = {
-        'form' : PedidoForm(instance=pedido)
+    # Calcular el total del pedido
+    total_pedido = sum(detalle.disco.precio * detalle.cantidad for detalle in pedido.detalles.all())
+    
+    # Datos a pasar a la plantilla
+    datos = {
+        'pedido': pedido,
+        'total_pedido': total_pedido,  # Incluimos el total del pedido en los datos
     }
     
+    return render(request, 'aplicacion/administrador/detalles_pedido.html', datos)
+
+@permission_required('aplicacion.add_disco')
+def modificarpedido(request, id):
+    pedido = get_object_or_404(Pedido, id=id)
+    direccion_envio = pedido.direccion_envio
+
     if request.method == 'POST':
-        formulario = PedidoForm(data=request.POST, instance=pedido, files=request.FILES)
-        if formulario.is_valid():
-            formulario.save()
-            messages.success(request, "modificado correctamente")
-            return redirect(to="pedidos")
-        data["form"] = formulario
+        pedido_form = PedidoForm(request.POST, instance=pedido)
+        direccion_form = DireccionEnvioForm(request.POST, instance=direccion_envio)
 
-    return render(request, 'aplicacion/administrador/modificarpedido.html', data)
+        if pedido_form.is_valid() and direccion_form.is_valid():
+            pedido_form.save()
+            direccion_form.save()
+            messages.success(request, "Pedido y dirección de envío modificados correctamente")
+            return redirect('pedidos')
 
+    else:
+        pedido_form = PedidoForm(instance=pedido)
+        direccion_form = DireccionEnvioForm(instance=direccion_envio)
+
+    context = {
+        'pedido_form': pedido_form,
+        'direccion_form': direccion_form,
+    }
+
+    return render(request, 'aplicacion/administrador/modificarpedido.html', context)
 @permission_required('aplicacion.add_disco')
 def eliminarpedido(request,id):
     pedido=get_object_or_404(Pedido, id=id)
@@ -472,14 +478,25 @@ def mispedidos(request):
         pedidos = paginator.page(page)
     except:
         raise Http404
-    # Calcular el precio total de cada pedido
-    for pedido in pedidos:
-        pedido.precio_total = pedido.cantidad * pedido.disco.precio
     context = {
         'entity': pedidos,
         'paginator': paginator
     }
     return render(request,'aplicacion/mispedidos.html',context)
+
+@login_required
+def detalles_pedido_usuario(request, pedido_id):
+    pedido = get_object_or_404(Pedido, id=pedido_id, user=request.user)
+    
+    # Calcular el total del pedido
+    total_pedido = sum(detalle.disco.precio * detalle.cantidad for detalle in pedido.detalles.all())
+    
+    context = {
+        'pedido': pedido,
+        'total_pedido': total_pedido,
+    }
+    return render(request, 'aplicacion/detalles_pedido_usuario.html', context)
+
 
 @login_required
 def modificarperfil(request, id):

@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Artista, Genero, Disco, Pedido, CustomUser, Carrito, DireccionEnvio
+from .models import Artista, Genero, Disco, Pedido, CustomUser, Carrito, DireccionEnvio, PedidoDetalle
 
 class CustomUserAdmin(admin.ModelAdmin):
     list_display = ['id', 'username', 'first_name', 'last_name', 'email', 'fecha_nacimiento', 'imagen']
@@ -12,8 +12,8 @@ class DiscoAdmin(admin.ModelAdmin):
     search_fields = ["titulo", "artista__nombre", "genero__nombre"]
 
 class PedidoAdmin(admin.ModelAdmin):
-    list_display = ['user', 'disco', 'cantidad', 'fecha_pedido']
-    list_filter = ['user', 'disco']
+    list_display = ['user', 'fecha_pedido']
+    list_filter = ['user']
     search_fields = ['user__username', 'disco__titulo']
 
 class CarritoAdmin(admin.ModelAdmin):
@@ -21,8 +21,8 @@ class CarritoAdmin(admin.ModelAdmin):
     list_filter = ['usuario', 'disco']
     search_fields = ['usuario__username', 'disco__titulo']
 
-class DireccionEnvioAdmin(admin.ModelAdmin):
-    list_display = ['pedido', 'calle', 'ciudad','region']
+class PedidoDetalleAdmin(admin.ModelAdmin):
+    list_display = ["pedido", "disco", "cantidad"]
 
 admin.site.register(Artista)
 admin.site.register(Disco, DiscoAdmin)
@@ -30,4 +30,4 @@ admin.site.register(Genero)
 admin.site.register(Pedido, PedidoAdmin)
 admin.site.register(CustomUser, CustomUserAdmin)
 admin.site.register(Carrito, CarritoAdmin)
-admin.site.register(DireccionEnvio, DireccionEnvioAdmin)
+admin.site.register(PedidoDetalle,PedidoDetalleAdmin)

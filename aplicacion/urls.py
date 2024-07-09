@@ -1,6 +1,6 @@
 
 from django.urls import path, include
-from .views import index, catalogo, agregar_disco, listar_discos, modificar_disco, eliminar_disco,salir, registrar, personas, crearpersona, modificarpersona, eliminarpersona,pedidos, modificarpedido, eliminarpedido, crearpedido, agregar_al_carrito, ver_carrito, realizar_pedido, eliminar_del_carrito, mispedidos, perfil_usuario, modificarperfil,actualizar_cantidad,pagar_tarjeta, direccion_envio
+from .views import index, catalogo, agregar_disco, listar_discos, modificar_disco, eliminar_disco,salir, registrar, personas, crearpersona, modificarpersona, eliminarpersona,pedidos, modificarpedido, eliminarpedido, crearpedido, agregar_al_carrito, ver_carrito, realizar_pedido, eliminar_del_carrito, mispedidos, perfil_usuario, modificarperfil,actualizar_cantidad,pagar_tarjeta, direccion_envio, detalles_pedido, detalles_pedido_usuario
 from django.conf import settings
 from django.conf.urls.static import static
 
@@ -31,6 +31,8 @@ urlpatterns = [
     path('actualizar-cantidad/<int:id>/', actualizar_cantidad, name='actualizar_cantidad'),
     path('pagar-tarjeta/', pagar_tarjeta, name='pagar_tarjeta'),
     path('direccion_envio', direccion_envio, name='direccion_envio'),
+    path('detalles_pedido<int:pedido_id>/', detalles_pedido, name='detalles_pedido'),
+    path('detalles_pedido_usuario<int:pedido_id>/', detalles_pedido_usuario, name='detalles_pedido_usuario'),
 
 
 ]

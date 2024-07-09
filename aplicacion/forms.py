@@ -1,5 +1,5 @@
 from django import forms
-from .models import Disco, Pedido, CustomUser, DireccionEnvio
+from .models import Disco, Pedido, CustomUser, DireccionEnvio, PedidoDetalle
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django.utils import timezone
@@ -72,7 +72,7 @@ class DiscoForm(forms.ModelForm):
 
     def clean_titulo(self):
         titulo = self.cleaned_data.get('titulo')
-        if len(titulo) < 3 or len(titulo) > 20:
+        if len(titulo) < 3 or len(titulo) > 25:
             raise forms.ValidationError("El título debe tener entre 3 y 20 caracteres.")
         return titulo
 
@@ -177,4 +177,4 @@ class UpdCustomUserCreationForm(forms.ModelForm):
 class PedidoForm(forms.ModelForm):
     class Meta:
         model = Pedido
-        fields = ['user', 'disco', 'cantidad', 'estado' ]
+        fields = ['user', 'estado' ]

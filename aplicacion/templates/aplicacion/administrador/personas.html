@@ -38,8 +38,12 @@
                         <td>{{ p.fecha_nacimiento }}</td>
                         <td>{{ p.email }}</td>
                         <td>
-                            <a href="{% url 'modificarpersona' p.id %}" class="btn btn-info btn-sm">Modificar</a>
-                            <a href="{% url 'eliminarpersona' p.id %}" role="button" class="btn btn-danger btn-sm">Eliminar</a>
+                            <a href="{% url 'modificarpersona' p.id %}" class="btn btn-info btn-sm">
+                            <i class="fas fa-edit"></i> Modificar
+                            </a>
+                            <a href="{% url 'eliminarpersona' p.id %}" role="button" class="btn btn-danger btn-sm">
+                                <i class="fas fa-trash-alt"></i> Eliminar
+                            </a>
                         </td>
                     </tr>
                     {% endfor %}

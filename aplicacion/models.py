@@ -57,22 +57,30 @@ class Pedido(models.Model):
     )
 
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True)
-    usuario_eliminado = models.BooleanField(default=False)  # Campo para marcar si el usuario está eliminado
+    nombre_usuario = models.CharField(max_length=150)  # Campo para almacenar el nombre de usuario
+    fecha_pedido = models.DateTimeField(auto_now_add=True)
+    estado = models.CharField(max_length=20, choices=ESTADO_CHOICES, default='pendiente')
+
+    def save(self, *args, **kwargs):
+        # Guardar el nombre de usuario al crear o actualizar el pedido
+        if self.user:
+            self.nombre_usuario = self.user.username
+        super().save(*args, **kwargs)
+
+    def __str__(self):
+        return f"Pedido de {self.nombre_usuario} - {self.fecha_pedido}"
+
+        
+class PedidoDetalle(models.Model):
+    pedido = models.ForeignKey(Pedido, on_delete=models.CASCADE, related_name='detalles')
     disco = models.ForeignKey(Disco, on_delete=models.CASCADE)
     cantidad = models.PositiveIntegerField(default=1)
     tarjeta_numero = models.CharField(max_length=16)
     tarjeta_caducidad = models.CharField(max_length=5)
     tarjeta_cvv = models.CharField(max_length=4)
-    fecha_pedido = models.DateTimeField(auto_now_add=True)
-    estado = models.CharField(max_length=20, choices=ESTADO_CHOICES, default='pendiente')
 
     def __str__(self):
-        if self.usuario_eliminado:
-            return f"Pedido de usuario eliminado - {self.disco.titulo} - {self.fecha_pedido}"
-        elif self.user:
-            return f"Pedido de {self.user.username} - {self.disco.titulo} - {self.fecha_pedido}"
-        else:
-            return f"Pedido sin usuario asignado - {self.disco.titulo} - {self.fecha_pedido}"
+        return f"Detalle de pedido: {self.disco.titulo} - Cantidad: {self.cantidad}"
 
 class Carrito(models.Model):
     usuario = models.ForeignKey(CustomUser, on_delete=models.CASCADE)

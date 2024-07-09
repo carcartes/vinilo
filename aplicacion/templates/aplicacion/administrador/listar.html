@@ -1,21 +1,21 @@
 {% extends "aplicacion/base.html" %}
+{% load static %}
 
 {% block js %}
     <script>
         function eliminarDisco(id){
             Swal.fire({
-                "title": "¿Estás seguro?",
-                "text": "Esta acción no se puede deshacer",
-                "icon": "warning",
-                "showCancelButton": true,
-                "cancelButtonText": "No, Cancelar",
-                "confirmButtonText": "Sí, Eliminar",
-                "reverseButtons": true,
-                "confirmButtonColor": "#dc3545"
-            })
-            .then(function(result){
+                title: "¿Estás seguro?",
+                text: "Esta acción no se puede deshacer",
+                icon: "warning",
+                showCancelButton: true,
+                cancelButtonText: "No, Cancelar",
+                confirmButtonText: "Sí, Eliminar",
+                reverseButtons: true,
+                confirmButtonColor: "#dc3545"
+            }).then(function(result){
                 if(result.isConfirmed){
-                    window.location.href = "/eliminar-disco/"+id+"/";
+                    window.location.href = "/eliminar-disco/" + id + "/";
                 }
             });
         }
@@ -45,7 +45,7 @@
                 <tbody>
                     {% for p in entity %}
                     <tr>
-                        <td><img src="{{ p.imagen.url }}" alt="Imagen del disco {{ p.titulo }}" height="100" width = "100" class="img-fluid"></td>
+                        <td><img src="{{ p.imagen.url }}" alt="Imagen del disco {{ p.titulo }}" height="100" width="100" class="img-fluid"></td>
                         <td>{{ p.titulo }}</td>
                         <td>{{ p.artista }}</td>
                         <td>{{ p.genero }}</td>
@@ -53,8 +53,12 @@
                         <td>{{ p.precio }}</td>
                         <td>{{ p.stock }}</td>
                         <td>
-                            <a href="{% url 'modificar_disco' p.id %}" class="btn btn-info btn-sm">Modificar</a>
-                            <a href="#" onclick="eliminarDisco({{ p.id }})" class="btn btn-danger btn-sm">Eliminar</a>
+                            <a href="{% url 'modificar_disco' p.id %}" class="btn btn-info btn-sm">
+                                <i class="fas fa-edit"></i> Modificar
+                            </a>
+                            <a href="#" onclick="eliminarDisco({{ p.id }})" class="btn btn-danger btn-sm">
+                                <i class="fas fa-trash-alt"></i> Eliminar
+                            </a>
                         </td>
                     </tr>
                     {% endfor %}
@@ -66,4 +70,4 @@
         </div>
     </div>
 </div>
-{% endblock content %}
+{% endblock %}
