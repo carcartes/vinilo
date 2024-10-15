@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Artista, Genero, Disco, Pedido, CustomUser, Carrito, DireccionEnvio, PedidoDetalle
+from .models import Artista, Genero, Disco, Pedido, CustomUser, Carrito, DireccionEnvio, PedidoDetalle, Valoracion
 
 class CustomUserAdmin(admin.ModelAdmin):
     list_display = ['id', 'username', 'first_name', 'last_name', 'email', 'fecha_nacimiento', 'imagen']
@@ -24,6 +24,9 @@ class CarritoAdmin(admin.ModelAdmin):
 class PedidoDetalleAdmin(admin.ModelAdmin):
     list_display = ["pedido", "disco", "cantidad"]
 
+class ValoracionAdmin(admin.ModelAdmin):
+    list_display = ["usuario", "disco", "estrellas","comentario", "fecha_valoracion"]
+
 admin.site.register(Artista)
 admin.site.register(Disco, DiscoAdmin)
 admin.site.register(Genero)
@@ -31,3 +34,4 @@ admin.site.register(Pedido, PedidoAdmin)
 admin.site.register(CustomUser, CustomUserAdmin)
 admin.site.register(Carrito, CarritoAdmin)
 admin.site.register(PedidoDetalle,PedidoDetalleAdmin)
+admin.site.register(Valoracion,ValoracionAdmin)

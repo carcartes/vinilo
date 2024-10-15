@@ -19,6 +19,7 @@
                     <th>Título del Disco</th>
                     <th>Cantidad</th>
                     <th>Precio Unitario</th>
+                    <th>Acciones</th>
                 </tr>
             </thead>
             <tbody>
@@ -28,6 +29,9 @@
                     <td>{{ detalle.disco.titulo }}</td>
                     <td>{{ detalle.cantidad }}</td>
                     <td>${{ detalle.disco.precio }}</td>
+                    <td>
+                        <a href="{% url 'valorar_disco' detalle.disco.id %}" class="btn btn-primary btn-sm">Valorar</a>
+                    </td>
                 </tr>
                 {% endfor %}
             </tbody>

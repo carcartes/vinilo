@@ -1,9 +1,19 @@
 from django import forms
-from .models import Disco, Pedido, CustomUser, DireccionEnvio, PedidoDetalle
+from .models import Disco, Pedido, CustomUser, DireccionEnvio, PedidoDetalle, Valoracion
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django.utils import timezone
 import re
+
+
+class ValoracionForm(forms.ModelForm):
+    class Meta:
+        model = Valoracion
+        fields = ['estrellas', 'comentario']
+        widgets = {
+            'estrellas': forms.RadioSelect(choices=[(i, str(i)) for i in range(1, 6)]),
+            'comentario': forms.Textarea(attrs={'rows': 5, 'placeholder': 'Escribe tu comentario aquí...'}),
+        }
 
 
 class DireccionEnvioForm(forms.ModelForm):

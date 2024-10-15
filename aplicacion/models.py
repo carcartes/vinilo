@@ -4,6 +4,8 @@ from django.contrib.auth.models import AbstractUser
 from django.conf import settings 
 from .opciones import REGIONES_CHILE, CIUDADES_CHILE
 
+
+
 class DireccionEnvio(models.Model):
     pedido = models.OneToOneField('Pedido', on_delete=models.CASCADE, related_name='direccion_envio')
     calle = models.CharField(max_length=255)
@@ -44,6 +46,15 @@ class Disco(models.Model):
     precio = models.DecimalField(max_digits=8, decimal_places=2)
     imagen = models.ImageField(upload_to="discos", null=True)
     stock = models.PositiveIntegerField(default=0)  
+
+    def promedio_valoracion(self):
+        valoraciones = self.valoraciones.all()
+        if valoraciones.exists():
+            return round(valoraciones.aggregate(models.Avg('estrellas'))['estrellas__avg'], 1)
+        return 0
+
+    def total_valoraciones(self):
+        return self.valoraciones.count()
 
     def __str__(self):
         return self.titulo
@@ -89,4 +100,14 @@ class Carrito(models.Model):
 
     def __str__(self):
         return f"Carrito de {self.usuario.username} - {self.disco.titulo}"
+    
+class Valoracion(models.Model):
+    usuario = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    disco = models.ForeignKey(Disco, on_delete=models.CASCADE, related_name='valoraciones')
+    estrellas = models.PositiveIntegerField(choices=[(i, str(i)) for i in range(1, 6)])  # 1 a 5 estrellas
+    comentario = models.TextField(blank=True, null=True)
+    fecha_valoracion = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Valoración de {self.usuario.username} para {self.disco.titulo}"
 

@@ -1,6 +1,6 @@
 
 from django.urls import path, include
-from .views import index, catalogo, agregar_disco, listar_discos, modificar_disco, eliminar_disco,salir, registrar, personas, crearpersona, modificarpersona, eliminarpersona,pedidos, modificarpedido, eliminarpedido, crearpedido, agregar_al_carrito, ver_carrito, realizar_pedido, eliminar_del_carrito, mispedidos, perfil_usuario, modificarperfil,actualizar_cantidad,pagar_tarjeta, direccion_envio, detalles_pedido, detalles_pedido_usuario
+from .views import index, catalogo, agregar_disco, listar_discos, modificar_disco, eliminar_disco,salir, registrar, personas, crearpersona, modificarpersona, eliminarpersona,pedidos, modificarpedido, eliminarpedido, crearpedido, agregar_al_carrito, ver_carrito, realizar_pedido, eliminar_del_carrito, mispedidos, perfil_usuario, modificarperfil,actualizar_cantidad,pagar_tarjeta, direccion_envio, detalles_pedido, detalles_pedido_usuario, valorar_disco, detalles_discos
 from django.conf import settings
 from django.conf.urls.static import static
 
@@ -33,7 +33,8 @@ urlpatterns = [
     path('direccion_envio', direccion_envio, name='direccion_envio'),
     path('detalles_pedido<int:pedido_id>/', detalles_pedido, name='detalles_pedido'),
     path('detalles_pedido_usuario<int:pedido_id>/', detalles_pedido_usuario, name='detalles_pedido_usuario'),
-
+    path('valoracion_form/<int:disco_id>/valorar/',valorar_disco, name='valorar_disco'),
+    path('detalles_discos/<int:disco_id>/', detalles_discos, name='detalles_discos'),
 
 ]
 

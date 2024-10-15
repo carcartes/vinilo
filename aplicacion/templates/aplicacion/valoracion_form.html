@@ -1,0 +1,58 @@
+{% extends "aplicacion/base.html" %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="mb-4">Valorar Disco: <span class="text-primary">{{ disco.titulo }}</span></h2>
+    
+    <div class="card p-4 shadow-sm border-light">
+        <!-- Mostrar si ya existe una valoración -->
+        {% if valoracion_existente %}
+            <div class="alert alert-info mb-4">
+                <strong>Ya has valorado este disco.</strong> Puedes actualizar tu valoración si lo deseas.
+            </div>
+        {% endif %}
+        
+        <form method="POST">
+            {% csrf_token %}
+            
+            <div class="mb-4">
+                <h4 class="mb-2">Valoración:</h4>
+                <div class="stars">
+                    <!-- Las estrellas deben mostrar el valor actual si es una edición -->
+                    <input type="radio" id="star5" name="estrellas" value="1" {% if form.estrellas.value == '5' %}checked{% endif %}><label for="star5" class="star"></label>
+                    <input type="radio" id="star4" name="estrellas" value="2" {% if form.estrellas.value == '4' %}checked{% endif %}><label for="star4" class="star"></label>
+                    <input type="radio" id="star3" name="estrellas" value="3" {% if form.estrellas.value == '3' %}checked{% endif %}><label for="star3" class="star"></label>
+                    <input type="radio" id="star2" name="estrellas" value="4" {% if form.estrellas.value == '2' %}checked{% endif %}><label for="star2" class="star"></label>
+                    <input type="radio" id="star1" name="estrellas" value="5" {% if form.estrellas.value == '1' %}checked{% endif %}><label for="star1" class="star"></label>
+                </div>
+                {% if form.estrellas.errors %}
+                    <div class="text-danger">
+                        {% for error in form.estrellas.errors %}
+                            <p>{{ error }}</p>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+
+            <div class="mb-4">
+                <h4 class="mb-2">Comentarios:</h4>
+                <div class="form-group">
+                    <!-- Renderiza el campo comentario -->
+                    {{ form.comentario }}
+                    
+                    <!-- Si hay errores, muéstralos -->
+                    {% if form.comentario.errors %}
+                        <div class="text-danger">
+                            {% for error in form.comentario.errors %}
+                                <p>{{ error }}</p>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-block">Enviar Valoración</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

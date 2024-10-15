@@ -1,7 +1,7 @@
 # IMPORTS
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import Disco, Pedido, CustomUser, Carrito, DireccionEnvio, PedidoDetalle
-from .forms import DiscoForm, CustomUserCreationForm, PedidoForm, UpdCustomUserCreationForm, DatosTarjetaForm, DireccionEnvioForm
+from .models import Disco, Pedido, CustomUser, Carrito, DireccionEnvio, PedidoDetalle, Valoracion
+from .forms import DiscoForm, CustomUserCreationForm, PedidoForm, UpdCustomUserCreationForm, DatosTarjetaForm, DireccionEnvioForm, ValoracionForm
 from django.contrib import messages
 from os import remove, path
 from django.conf import settings
@@ -13,6 +13,70 @@ from django.db import transaction
 from django.http import HttpResponseServerError
 from django.http import JsonResponse
 from datetime import date
+from django.db.models import Avg
+
+def detalles_discos(request, disco_id):
+    # Obtén el disco con el id proporcionado
+    disco = get_object_or_404(Disco, id=disco_id)
+    
+    # Obtener la valoración promedio del disco
+    valoracion_promedio = disco.promedio_valoracion()
+
+    # Obtener todos los comentarios y valoraciones del disco, ordenados por fecha_valoracion
+    valoraciones = disco.valoraciones.all().order_by('-fecha_valoracion')
+
+    # Crear un rango de estrellas (del 1 al 5) para el template
+    estrellas = range(1, 6)
+
+    # Pasar estos datos al template
+    context = {
+        'disco': disco,
+        'valoracion_promedio': valoracion_promedio,
+        'valoraciones': valoraciones,
+        'estrellas': estrellas,  # Pasar el rango de estrellas
+    }
+    return render(request, 'aplicacion/detalles_discos.html', context)
+
+
+
+def valorar_disco(request, disco_id):
+    # Obtén el disco a valorar
+    disco = get_object_or_404(Disco, id=disco_id)
+
+    # Comprobar si ya existe una valoración para este disco por el usuario
+    valoracion_existente = Valoracion.objects.filter(disco=disco, usuario=request.user).first()
+
+    if request.method == 'POST':
+        form = ValoracionForm(request.POST)
+        if form.is_valid():
+            # Si ya existe una valoración, actualizamos
+            if valoracion_existente:
+                valoracion_existente.estrellas = form.cleaned_data['estrellas']
+                valoracion_existente.comentario = form.cleaned_data['comentario']
+                valoracion_existente.save()
+                messages.success(request, "Tu valoración ha sido actualizada.")
+            else:
+                # Guardar la nueva valoración
+                valoracion = form.save(commit=False)
+                valoracion.usuario = request.user  # Asumimos que el usuario está autenticado
+                valoracion.disco = disco
+                valoracion.save()
+                messages.success(request, "Gracias por valorar el disco.")
+
+            # Buscar el pedido relacionado con este disco
+            pedido_detalle = get_object_or_404(PedidoDetalle, disco=disco, pedido__user=request.user)
+            pedido = pedido_detalle.pedido  # Obtenemos el pedido asociado al disco
+
+            # Redirigir a la vista de detalles del pedido
+            return redirect('detalles_pedido_usuario', pedido_id=pedido.id)
+    else:
+        if valoracion_existente:
+            # Si existe una valoración, pre-cargamos el formulario con la valoración existente
+            form = ValoracionForm(instance=valoracion_existente)
+        else:
+            form = ValoracionForm()
+
+    return render(request, 'aplicacion/valoracion_form.html', {'form': form, 'disco': disco, 'valoracion_existente': valoracion_existente})
 
 
 def index(request):
@@ -20,9 +84,21 @@ def index(request):
 
 def catalogo(request):
     discos = Disco.objects.filter(stock__gt=0)  # Filtrar discos con stock mayor que cero
-    
+
+    # Calcular el promedio de valoraciones para cada disco
+    for disco in discos:
+        valoraciones = disco.valoraciones.all()  # Suponiendo que 'valoraciones' es una relación de disco
+        if valoraciones.exists():
+            disco.promedio_valoracion = valoraciones.aggregate(Avg('estrellas'))['estrellas__avg']
+        else:
+            disco.promedio_valoracion = None
+
+    # Crear el rango de estrellas (del 1 al 5) y pasarlo a la plantilla
+    rango_estrellas = list(range(1, 6))
+
     context = {
-        'discos': discos
+        'discos': discos,
+        'rango_estrellas': rango_estrellas,  # Pasar el rango a la plantilla
     }
     return render(request, 'aplicacion/catalogo.html', context)
 
